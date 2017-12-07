@@ -1,0 +1,37 @@
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<body>
+
+{% block content %}
+  <h1>Enter a Point of Interest</h1>
+  <form method="POST" action="/top_5">
+      <p>{{ form.POI.label }}{{ form.POI() }}</p>
+      {{ form.submit() }}
+  </form>
+{% endblock %}
+
+<button onclick="onClick()">Show Search History</button>
+
+
+<ul id="history"></ul>
+
+<script>
+function onClick() {
+
+	var request = $.ajax({
+  url: "/json",
+  method: "GET",
+  dataType: "json"
+});
+ 
+request.done(function( data ) {
+	for (var i = data.history.length - 1; i >= 0; i--) {
+		$("<li>" + data.history[i] + "</li>").appendTo("#history")
+	};
+});
+
+}
+</script>
+
+</body>
+</html>
